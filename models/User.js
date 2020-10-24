@@ -21,6 +21,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minlength: 6
+    },
+    archive: {
+        type: Boolean,
+        required: true,
+        default: false,
     }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 

@@ -1,6 +1,5 @@
 const express = require('express');
-const dotenv = require('dotenv').config();
-const mongoose = require('mongoose');
+require('./db/mongoose');
 
 // Models
 const Task = require('../models/Task');
@@ -8,79 +7,187 @@ const User = require('../models/User');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-const dbURI = process.env.MONGO_ATLAST_URI;
-
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then((result) => app.listen(PORT))
-    .catch((err) => console.log(err));
-
-
 app.use(express.json());
 
 
 // post user
-app.post('/users', (req, res) => {
+app.post('/users', async (req, res) => {
     
     const user = new User(req.body);
 
-    user.save().then(data => {
-        res.status(201).send(data);
-    })
-    .catch(e => res.status(400).send(e))
+    try {
+        await user.save();
+        res.status(201).send(user)
+    } catch (e) {
+        res.status(400).send();
+    }
 })
 
 // get users
-app.get('/users', (req, res) => {
+app.get('/users', async (req, res) => {
 
-    const users = User.find();
-
-    users.then(data => res.status(200).send(data))
-        .catch(e => res.status(400).send({ message: "No User Found"}));
+    try {
+        const users = await User.find();
+        res.send(users);
+    } catch (e) {
+        res.status(400).send();
+    }
 })
 
-
 // get single user
-app.get('/users/:id', (req, res) => {
+app.get('/users/:id', async (req, res) => {
+    const _id = req.params.id;
 
-    const user = User.findById(req.params.id)
+    try {
+        const user = await User.findById(_id);
 
-    user.then(user => res.status(200).send(user))
-        .catch(e => res.status(400).send({ mesage: 'No User Found!' }))
+        if(!user){
+            return res.status(400).send();
+        }
+
+        res.send(user);
+    } catch (e) {
+        res.status(400).send();
+    }
+})
+
+// update user
+app.put('/users/:id', async (req, res) => {
+
+    const _id = req.params.id;
+    const body = req.body;
+    // check params
+    const updateParams = Object.keys(req.body);
+    const allowedParams = ['name', 'phone', 'email', 'password'];
+    const isValidParams = updateParams.every(update => allowedParams.includes(update));
+    
+    if(!isValidParams){
+        return res.status(400).send({ message: 'Updates are not allowed.' });
+    }
+
+    try {
+        const user = await User.findByIdAndUpdate(_id, body, { new: true, runValidators: true });
+
+        if(!user){
+            return res.status(400).send();
+        }
+
+        res.send(user)
+
+    } catch (e) {
+        res.status(400).send();
+    }
+});
+
+
+//  archive user
+app.put('/users/archive/:id', async (req, res) => {
+    
+    const _id = req.params.id;
+    const archive = { archive: true };
+    try {
+        const user = await User.findByIdAndUpdate(_id, archive, { new: true, runValidators: true });
+
+        if(!user){
+            return res.status(400).send({ error: 'Something went wrong' })
+        }
+
+        res.send(user);
+    } catch (e) {
+        res.status(400).send();
+    }
 });
 
 
 // post task
-app.post('/tasks', (req, res) => {
+app.post('/tasks', async (req, res) => {
     
-    console.log(req.body)
-    const tasks = new Task(req.body);
+    const task = new Task(req.body);
 
-    tasks.save().then(tasks => res.status(201).send(tasks))
-        .catch(e => res.status(400).send({ message: 'Someting went wrong...'}));
+    try {
+        await task.save();
+        res.status(201).send(task);
+    } catch (e) {
+        res.status(400).send();
+    }
 })
 
-
 // get tasks
-app.get('/tasks', (req, res) => {
+app.get('/tasks', async (req, res) => {
+    try {
+        const tasks = await Task.find();
+        res.send(tasks);
+    } catch (e) {
+        res.status(400).send();
+    }
+});
+
+// get single task
+app.get('/tasks/:id', async (req, res) => {
+    const _id = req.params.id;
+
+    try {
+        const task = await Task.findById(_id);
+
+        if(!task){
+            return res.status(400).send();
+        }
+
+        res.send(task);
+    } catch (e) {
+        res.status(400).send();
+    }
+})
+
+// update user
+app.put('/tasks/:id', async (req, res) => {
+
+    const _id = req.params.id;
+    const body = req.body;
+    // check params
+    const updateParams = Object.keys(req.body);
+    const allowedParams = ['title', 'description'];
+    const isValidParams = updateParams.every(update => allowedParams.includes(update));
     
-    const tasks = Task.find();
-    
-    tasks.then(tasks => res.status(200).send(tasks))
-         .catch(e => res.status(400).send({ message: 'No Tasks Found!' }))
+    if(!isValidParams){
+        return res.status(400).send({ message: 'Updates are not allowed.' });
+    }
+
+    try {
+        const task = await Task.findByIdAndUpdate(_id, body, { new: true, runValidators: true });
+
+        if(!task){
+            return res.status(400).send();
+        }
+
+        res.send(task)
+
+    } catch (e) {
+        res.status(400).send();
+    }
 });
 
 
-// get single task
-app.get('/tasks/:id', (req, res) => {
+//  archive task
+app.put('/tasks/archive/:id', async (req, res) => {
     
-    const task = Task.findById(req.params.id);
-    
-    task.then(task => res.status(200).send(task))
-        .catch(e => res.status(400).send({ message: 'No Task Found!' }))
-})
+    const _id = req.params.id;
+    const archive = { archive: true };
+    try {
+        const task = await Task.findByIdAndUpdate(_id, archive, { new: true, runValidators: true });
+
+        if(!task){
+            return res.status(400).send({ error: 'Something went wrong' })
+        }
+
+        res.send(task);
+    } catch (e) {
+        res.status(400).send();
+    }
+});
 
 
 
-
-
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
