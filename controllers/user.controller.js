@@ -58,8 +58,9 @@ const getSingleUser = async (req, res) => {
         }
 
         res.send(user);
+
     } catch (e) {
-        res.status(400).send();
+        res.status(400).send(e);
     }
 }
 
@@ -78,7 +79,8 @@ const updateUser = async (req, res) => {
     }
 
     try {
-        const user = await User.findByIdAndUpdate(_id, body, { new: true, runValidators: true });
+        
+        const user = await User.findByIdAndUpdate(_id, body);
 
         if(!user){
             return res.status(400).send();
@@ -112,7 +114,7 @@ const archiveUser =  async (req, res) => {
 // Delete Many  Note: DELETE ALL
 const deleteMany = async (req, res) => {
     try {
-        await User.remove({});
+        await User.deleteMany({});
         res.status(200).send({message: 'Deleted success all the data.'})
     } catch (e) {
         res.status(400).send({ message: 'Failed to delete all the data.' })

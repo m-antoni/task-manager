@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { isEmail } = require('validator');
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     name: {
@@ -27,6 +28,30 @@ const userSchema = new Schema({
         default: false,
     }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
+
+
+// fire after save
+// userSchema.post('save', function (doc, next) {
+//     // do some code here
+//     next();
+// })
+
+
+// fire before save
+ userSchema.pre('save', async function (next) {
+   
+    const user = this;
+    const salt = await bcrypt.genSalt();
+
+    // can take advantage if password is updated aswell
+    if(user.isModified('password')){
+        user.password = await bcrypt.hash(user.password, salt);
+    }
+
+    next();
+ })
+
+
 
 const User = mongoose.model('User', userSchema);
 
