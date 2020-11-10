@@ -1,14 +1,38 @@
 const User = require('../models/User');
 
+
+// handle Errors 
+const handleError = (err) => {
+    // console.log(err.message, err.code);
+    let errors = { name: '', email: '', password: '' };
+
+    // duplicate error code
+    if(err.code === 11000){
+        errors.email = 'Email is already taken';
+        return errors;
+    }
+
+    // validation errors check
+    if(err.message.includes('User validation failed')){
+        Object.values(err.errors).map(({properties}) => {
+            errors[properties.path] = properties.message;
+        })
+    }
+
+    return errors;
+}
+
 // Create User
 const createUser = async (req, res) => {
     
     const user = new User(req.body);
+
     try {
         await user.save();
         res.status(201).send(user)
-    } catch (e) {
-        res.status(400).send();
+    } catch (err) {
+        const errors = handleError(err);
+        res.status(400).json({errors});
     }
 }
 
@@ -85,4 +109,15 @@ const archiveUser =  async (req, res) => {
     }
 }
 
-module.exports = { createUser, getUsers, getSingleUser, updateUser, archiveUser }
+// Delete Many  Note: DELETE ALL
+const deleteMany = async (req, res) => {
+    try {
+        await User.remove({});
+        res.status(200).send({message: 'Deleted success all the data.'})
+    } catch (e) {
+        res.status(400).send({ message: 'Failed to delete all the data.' })
+    }
+}
+
+
+module.exports = { createUser, getUsers, getSingleUser, updateUser, archiveUser, deleteMany }
