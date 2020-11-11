@@ -5,15 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js -e js,hbs"
+    "dev": "nodemon app.js -e js, hbs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
-    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "hbs": "^4.1.1",
     "jsonwebtoken": "^8.5.1",

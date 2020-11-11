@@ -122,4 +122,32 @@ const deleteMany = async (req, res) => {
 }
 
 
-module.exports = { createUser, getUsers, getSingleUser, updateUser, archiveUser, deleteMany }
+const indexPage = (req, res) => {
+
+    const data = {
+        title: 'Sign In',
+    }
+
+    res.render('index', data);
+}
+
+const signUpPage = (req, res) => {
+
+    const data = {
+        title: 'Sign Up',
+    }
+
+    res.render('signup', data);
+}
+
+
+module.exports = { 
+    createUser, 
+    getUsers, 
+    getSingleUser, 
+    updateUser, 
+    archiveUser, 
+    deleteMany,
+    indexPage,
+    signUpPage
+}
