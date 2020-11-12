@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const port = process.env.PORT;
+
 
 // handle Errors 
 const handleError = (err) => {
@@ -36,13 +38,20 @@ const createUser = async (req, res) => {
     try {
         await user.save();
         const token = await user.generateAuthToken();
-        // for production
-        // res.cookie('jwt', token, { secure: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }) // https only ,set in milliseconds
-        
-        // uncomment for dev
-        res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }) // set in milliseconds
+
+        if(port == 5000)
+        {
+            // uncomment for dev
+            res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }) // set in milliseconds
+        }
+        else
+        {
+            // for production
+            res.cookie('jwt', token, { secure: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }) // https only ,set in milliseconds
+        }
 
         res.status(201).send({ user: user._id});
+
     } catch (err) {
         const errors = handleError(err);
         res.status(400).json({errors});
@@ -59,11 +68,17 @@ const signInUser = async (req, res) => {
         const user = await User.findByCredentials(email, password);
         const token = await user.generateAuthToken();
 
-        // for production
-        // res.cookie('jwt', token, { secure: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }) // https only ,set in milliseconds
-        
-        // uncomment for dev
-        res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }) // set in milliseconds
+        if(port == 5000)
+        {
+            // uncomment for dev
+            res.cookie('jwt', token, { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }) // set in milliseconds
+        }
+        else
+        {
+            // for production
+            res.cookie('jwt', token, { secure: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }) // https only ,set in milliseconds
+        }
+
         res.status(200).send({ user: user._id });
 
     } catch (err) {
