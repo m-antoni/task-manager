@@ -1,41 +1,6 @@
 const User = require('../models/User');
 
 
-// handle Errors 
-const handleError = (err) => {
-    // console.log(err.message, err.code);
-    let errors = { name: '', email: '', password: '' };
-
-    // duplicate error code
-    if(err.code === 11000){
-        errors.email = 'Email is already taken';
-        return errors;
-    }
-
-    // validation errors check
-    if(err.message.includes('User validation failed')){
-        Object.values(err.errors).map(({properties}) => {
-            errors[properties.path] = properties.message;
-        })
-    }
-
-    return errors;
-}
-
-// Create User
-const createUser = async (req, res) => {
-    
-    const user = new User(req.body);
-
-    try {
-        await user.save();
-        res.status(201).send(user)
-    } catch (err) {
-        const errors = handleError(err);
-        res.status(400).json({errors});
-    }
-}
-
 // Get User
 const getUsers = async (req, res) => {
     try {
@@ -122,32 +87,23 @@ const deleteMany = async (req, res) => {
 }
 
 
-const indexPage = (req, res) => {
+
+const homePage = async (req, res) => {
 
     const data = {
-        title: 'Sign In',
+        title: 'Home page'
     }
 
-    res.render('index', data);
+    res.render('home', data)
 }
 
-const signUpPage = (req, res) => {
-
-    const data = {
-        title: 'Sign Up',
-    }
-
-    res.render('signup', data);
-}
 
 
 module.exports = { 
-    createUser, 
+    homePage,
     getUsers, 
     getSingleUser, 
     updateUser, 
     archiveUser, 
     deleteMany,
-    indexPage,
-    signUpPage
 }

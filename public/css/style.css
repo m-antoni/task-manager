@@ -10,3 +10,13 @@ body {
   margin-top: 150px !important;
 }
 
+.email-error, .password-error, .signin-error {
+  text-align: center;
+  color: #F05454;
+  font-weight: 600;
+}
+
+.user-home{
+  margin-top: 150px !important;
+}
+

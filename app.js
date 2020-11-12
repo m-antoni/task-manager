@@ -6,6 +6,7 @@ const hbs = require('hbs');
 const path = require('path');
 
 // Models
+const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const taskRoutes = require('./routes/task.routes');
 
@@ -30,13 +31,11 @@ app.use(express.static(publicPathDirectory));
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
 
-
-
 // Routes
+app.use(authRoutes);
 app.use(userRoutes);
 app.use(taskRoutes);
 app.use(cookieParser());
-
 
 
 

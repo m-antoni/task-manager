@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 
 const userSchema = new Schema({
     name: {
@@ -30,14 +32,41 @@ const userSchema = new Schema({
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 
 
-// fire after save
-// userSchema.post('save', function (doc, next) {
-//     // do some code here
-//     next();
-// })
+
+// Generate Authentication Token
+userSchema.methods.generateAuthToken = async function() {
+    
+    const user = this
+    // Note: set in seconds to expire
+    const token = await jwt.sign({ _id: user._id.toString()}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }); 
+
+    return token;
+}
+
+// static function for login user
+userSchema.statics.findByCredentials = async function (email, password) {
+
+    const user = await this.findOne({ email });
+    const errorMessage = 'unauthorized';
+
+    // check user
+    if(!user){
+        throw new Error(errorMessage);
+    }
+
+    // check password 
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if(!isMatch){
+        throw new Error(errorMessage);
+    }
+
+    return user;
+}
 
 
-// fire before save
+
+// Fire before save to collection
  userSchema.pre('save', async function (next) {
    
     const user = this;
@@ -50,7 +79,6 @@ const userSchema = new Schema({
 
     next();
  })
-
 
 
 const User = mongoose.model('User', userSchema);
