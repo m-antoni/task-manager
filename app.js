@@ -37,19 +37,17 @@ app.use(userRoutes);
 app.use(taskRoutes);
 app.use(cookieParser());
 
+// example cookie parser
+app.get('/set-cookies', (req, res) => {
+    // res.setHeader('set-Cookie', 'newUser=true');
+    res.cookie('newUser', false);
+    // secure: true  for https
+    res.cookie('isArchive', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
 
+    res.send('You got cookies')
+})
 
-// // example cookie parser
-// app.get('/set-cookies', (req, res) => {
-//     // res.setHeader('set-Cookie', 'newUser=true');
-//     res.cookie('newUser', false);
-//     // secure: true  for https
-//     res.cookie('isArchive', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
-
-//     res.send('You got cookies')
-// })
-
-// app.get('/read-cookies', (req, res) => {
-//     const cookies = req.cookies;
-//     res.json(cookies);
-// })
+app.get('/read-cookies', (req, res) => {
+    const cookies = req.cookies;
+    res.json(cookies);
+})

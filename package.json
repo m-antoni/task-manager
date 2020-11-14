@@ -16,9 +16,9 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "hbs": "^4.1.1",
+    "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.9",
-    "validator": "^13.1.17"
+    "mongoose": "^5.10.9"
   },
   "devDependencies": {
     "nodemon": "^2.0.5"

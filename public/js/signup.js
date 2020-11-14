@@ -19,7 +19,7 @@ form.addEventListener('submit', async (e) => {
 
     try {
         
-        const res = await fetch('/users/create', {
+        const res = await fetch('/api/users/create', {
             method: 'POST',
             headers: { 'Content-type': 'application/json'},
             body: JSON.stringify({ name: params.name, email: params.email, password: params.password })
