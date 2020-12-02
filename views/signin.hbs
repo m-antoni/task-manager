@@ -9,14 +9,16 @@
     <div class="row justify-content-center">
       <div class="col-md-4 form-m">
         <h4 class="text-center text-primary mb-5">Task Manager App</h4>
-        <div class="signin-error"></div>
-        <form id="form-signin" class="text-center">
+
+        {{> errors}}
+
+        <form action="/" method="post" id="form-signin" class="text-center">
           <div class="md-form">
-            <input type="email" id="email" class="form-control" required>
+            <input type="email" id="email" name="email" value="{{email}}" class="form-control" required>
             <label for="email">E-mail</label>
           </div>
           <div class="md-form">
-            <input type="password" id="password" class="form-control" required>
+            <input type="password" name="password" id="password" class="form-control" required>
             <label for="password">Password</label>
           <button class="btn btn-info btn-block my-4 waves-effect z-depth-0" type="submit">Sign in</button>
           <p>Not a member? <a href="/sign-up">Register</a></p>
@@ -24,8 +26,6 @@
       </div>
     </div>
   </div>
-
-  <script src="js/signin.js"></script>  
   {{> footer}}
 </body>
 </html>

@@ -4,14 +4,18 @@ require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const hbs = require('hbs');
 const path = require('path');
+const bodyParser = require("body-parser");
 
 // Models
-const authRoutes = require('./routes/auth.routes');
-const userRoutes = require('./routes/user.routes');
-const taskRoutes = require('./routes/task.routes');
+const authRoutes = require('./routes/authRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Middleware
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json());
 
 // Database connection
 const DB_URI = process.env.MONGO_ATLAST_URI;
@@ -19,35 +23,16 @@ mongoose.connect(DB_URI, { useNewUrlParser: true, useCreateIndex: true, useUnifi
     .then(result => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
     .catch(error => console.log(error));
 
-// Middleware
-app.use(express.json());
-
-
 // Set static pages
-const publicPathDirectory = path.join(__dirname, './public');
-app.use(express.static(publicPathDirectory));
+const publicDirectory = path.join(__dirname, './public');
+app.use(express.static(publicDirectory));
 
 // Template Engine
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
+app.use(cookieParser());
+
 
 // Routes
 app.use(authRoutes);
-app.use(userRoutes);
 app.use(taskRoutes);
-app.use(cookieParser());
-
-// example cookie parser
-app.get('/set-cookies', (req, res) => {
-    // res.setHeader('set-Cookie', 'newUser=true');
-    res.cookie('newUser', false);
-    // secure: true  for https
-    res.cookie('isArchive', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
-
-    res.send('You got cookies')
-})
-
-app.get('/read-cookies', (req, res) => {
-    const cookies = req.cookies;
-    res.json(cookies);
-})

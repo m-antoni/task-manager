@@ -86,4 +86,15 @@ const archiveTask = async (req, res) => {
     }
 }
 
-module.exports = { createTask, getTasks, getSingleTask, updateTask, archiveTask };
+
+const homePage = async (req, res) => {
+
+    const data = {
+        title: 'Home page'
+    }
+
+    res.render('home', data)
+}
+
+
+module.exports = { createTask, getTasks, getSingleTask, updateTask, archiveTask, homePage };

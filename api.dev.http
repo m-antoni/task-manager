@@ -1,0 +1,42 @@
+@url = http://localhost:5000/api
+
+### Auth Create User
+# @name create-user
+POST {{url}}/users/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Sebastian Noah",
+    "email": "sebastian@gmail.com",
+    "password": "123456"
+}
+
+
+### Sign In User
+# @name signin
+POST {{url}}/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "michael@gmail.com",
+    "password": "password123"
+}
+
+
+### Get Users
+# @name get-users
+GET {{url}}/users HTTP/1.1
+
+
+
+
+### Delete All Users
+# @name delete-users
+GET {{url}}/users/delete/all HTTP/1.1
+
+
+
+### Pages Here
+
+GET {{url}}/users/home HTTP/1.1
+
