@@ -12,19 +12,17 @@ const createUser = async (req, res) => {
 
     if(params.password != params.confirm_password){
         error_msg.push('Password and Confirm Password do not match');
-        return render('signup', { errors: error_msg, name: req.body.name, email: req.body.email });
+        return res.render('signup', { errors: error_msg, name: req.body.name, email: req.body.email });
     }
 
     const { error } = userSchema.validate(params, { abortEarly: false });
-    if(error) 
-    {
+    if(error) {
         error.details.map(err => error_msg.push(err.message))
         return res.render('signup', { errors: error_msg, name: req.body.name, email: req.body.email });
     }
     
     const emailExists = await User.findOne({ email: params.email });
-    if(emailExists) 
-    {
+    if(emailExists) {
         error_msg.push(`${params.email} is already taken`);
         return res.render('signup', { errors: error_msg,name: req.body.name, email: req.body.email });
     }
@@ -46,9 +44,8 @@ const createUser = async (req, res) => {
         res.status(201).render('home',{ user: user._id, token: token});
 
     } catch (err) {
-    
         console.log(err)
-        res.status(500).send(data);
+        res.render('signup', { errors: ['Something went wrong'] });
     }
 }
 
@@ -67,6 +64,13 @@ const signInUser = async (req, res) => {
     try {
 
         const user = await User.findByCredentials(params.email, params.password);
+
+        if(user == 401){
+            error_msg.push('Unauthorized')
+            return res.render('signin', { errors: error_msg, email: params.email });
+        }
+
+        console.log(user)
         const token = await user.generateAuthToken();
 
         const options = { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }
@@ -80,7 +84,8 @@ const signInUser = async (req, res) => {
         res.render('home',{ user: user._id });
 
     } catch (err) {
-        res.status(400).send();
+        console.log(err)
+        res.render('signin', { errors: ['Something went wrong'] });
     }  
 }
 
