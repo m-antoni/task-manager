@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/taskController');
-const auth = require('../middlewares/auth');
+const { auth } = require('../middlewares/auth');
 
+// pages
 router.get('/home', auth, taskController.homePage);
+router.get('/home/tasks', taskController.tasksPage);
+router.get('/home/create-task', taskController.createTaskPage);
 
 // api
-router.post('/tasks', taskController.createTask);
-router.get('/tasks/:id', taskController.getSingleTask );
-router.put('/tasks/:id', taskController.updateTask );
-router.put('/tasks/archive/:id', taskController.archiveTask );
+router.post('/home/create-task', taskController.createTask);
+
 
 module.exports = router;

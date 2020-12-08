@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {{> header}}
+    {{> _header}}
     <title>{{title}}</title>
 </head>
 <body>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-4">
-        <h4 class="text-center text-primary">Welcome to Task Manager App</h4>
-        <p class="text-center">Create your tasks here.</p>
-
+  {{> _navbar}}
+    <div class="jumbotron">
+      <div class="container text-center">
+        <h1 class="display-4">Simple Task Manager App</h1>
+        <p class="w-50 m-auto">Welcome to a Simple Task Manager App, where you can manage your personal tasks.</p>
+        <p><a class="btn btn-primary btn-lg " href="#" role="button">Get Started</a></p>
       </div>
     </div>
-  </div>
 
-  {{> footer}}
+  {{> _footer}}
 </body>
 </html>

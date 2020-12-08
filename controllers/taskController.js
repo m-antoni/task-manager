@@ -1,100 +1,57 @@
 const Task = require('../models/Task');
+const { createTaskSchema } = require('../helpers/validationSchema');
+const moment = require('moment');
 
 // Create Task
 const createTask = async (req, res) => {
-    const task = new Task(req.body);
+
+    const error_msg = [];
+    const params = req.body;
+
+    const { error } = createTaskSchema.validate(params, { abortEarly: false });
+    
+    if(error){
+        error.details.map(err => error_msg.push(err.message));
+        return res.render('create-task', { errors: error_msg, title: params.title, description: params.description });    
+    }
 
     try {
+        const task = new Task(params);
         await task.save();
-        res.status(201).send(task);
+        res.redirect('/home/tasks');
     } catch (e) {
-        res.status(400).send();
-    }
-}
-
-// Get Tasks
-const getTasks = async (req, res) => {
-    try {
-        const tasks = await Task.find();
-        res.send(tasks);
-    } catch (e) {
-        res.status(400).send();
-    }
-}
-
-// Get Single Task
-const getSingleTask = async (req, res) => {
-    const _id = req.params.id;
-
-    try {
-        const task = await Task.findById(_id);
-
-        if(!task){
-            return res.status(400).send();
-        }
-
-        res.send(task);
-    } catch (e) {
-        res.status(400).send();
+        res.status(400).render('create-task', { error_msg: 'Something went wrong.' });
     }
 }
 
 
-// Update Task
-const updateTask = async (req, res) => {
 
-    const _id = req.params.id;
-    const body = req.body;
-    // check params
-    const updateParams = Object.keys(req.body);
-    const allowedParams = ['title', 'description'];
-    const isValidParams = updateParams.every(update => allowedParams.includes(update));
-    
-    if(!isValidParams){
-        return res.status(400).send({ message: 'Updates are not allowed.' });
-    }
-
-    try {
-        const task = await Task.findByIdAndUpdate(_id, body, { new: true, runValidators: true });
-
-        if(!task){
-            return res.status(400).send();
-        }
-
-        res.send(task)
-
-    } catch (e) {
-        res.status(400).send();
-    }
-}
-
-// Archive Task
-const archiveTask = async (req, res) => {
-    
-    const _id = req.params.id;
-    const archive = { archive: true };
-    try {
-        const task = await Task.findByIdAndUpdate(_id, archive, { new: true, runValidators: true });
-
-        if(!task){
-            return res.status(400).send({ error: 'Something went wrong' })
-        }
-
-        res.send(task);
-    } catch (e) {
-        res.status(400).send();
-    }
-}
-
-
+// PAGES HERE HBS FILES
 const homePage = async (req, res) => {
-
-    const data = {
-        title: 'Home page'
-    }
-
-    res.render('home', data)
+    res.render('home', { title: 'Home page' });
 }
 
 
-module.exports = { createTask, getTasks, getSingleTask, updateTask, archiveTask, homePage };
+const createTaskPage = async (req, res) => {
+   res.render('create-task'); 
+}
+
+
+const tasksPage = async (req, res) => {
+    
+    const tasks = await Task.find().sort({ created_at: 'desc' });
+
+    try {
+
+        // const all_tasks = tasks.map(task => { created_at:  moment.format(task.created_at) } );  
+        // console.log(all_tasks)
+        res.render('tasks', { tasks });
+    } catch (e) {
+        console.log(e);
+        res.render('tasks', { error: 'Something went wrong.' })
+    }
+
+}
+
+
+module.exports = { createTask, homePage, createTaskPage, tasksPage };

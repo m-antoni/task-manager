@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {{> header}}
+    {{> _header}}
     <title>{{title}}</title>
 </head>
 <body>
@@ -9,9 +9,7 @@
     <div class="row justify-content-center">
       <div class="col-md-4 form-m">
         <h4 class="text-center text-primary mb-5">Task Manager App</h4>
-
-        {{> errors}}
-
+        {{> _messages }}
         <form action="/sign-up" method="POST" id="form-signup" class="text-center">
         <div class="md-form">
             <input type="text" name="name" value="{{name}}" id="name" class="form-control" required>
@@ -37,6 +35,6 @@
       </div>
     </div>
   </div>
-  {{> footer}}
+  {{> _footer}}
 </body>
 </html>

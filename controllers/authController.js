@@ -40,7 +40,7 @@ const createUser = async (req, res) => {
             options.secure = true;
         }
 
-        res.cookie('token', token, options) // set in milliseconds
+        res.cookie('jwt', token, options) // set in milliseconds
         res.status(201).render('home',{ user: user._id, token: token});
 
     } catch (err) {
@@ -56,6 +56,7 @@ const signInUser = async (req, res) => {
     const params = req.body;
 
     const { error } = authSchema.validate(params, { abortEarly: false });
+
     if(error){
         error.details.map(err => error_msg.push(err.message));
         return res.render('signin', { errors: error_msg, email: params.email });
@@ -70,7 +71,6 @@ const signInUser = async (req, res) => {
             return res.render('signin', { errors: error_msg, email: params.email });
         }
 
-        console.log(user)
         const token = await user.generateAuthToken();
 
         const options = { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }
@@ -80,8 +80,8 @@ const signInUser = async (req, res) => {
             options.secure = true;
         }
 
-        res.cookie('token', token, options) // set in milliseconds
-        res.render('home',{ user: user._id });
+        res.cookie('jwt', token, options) // set in milliseconds
+        res.status(201).render('home',{ user: user._id, token: token});
 
     } catch (err) {
         console.log(err)
@@ -89,6 +89,12 @@ const signInUser = async (req, res) => {
     }  
 }
 
+
+const signOut = (req, res) => {
+    // console.log(res)
+    res.cookie('jwt', '', { expires: new Date() });
+    res.redirect('/');
+}
 
 // Sign In page
 const signInPage = (req, res) => {
@@ -115,5 +121,6 @@ module.exports =  {
     signInPage,
     signUpPage,
     createUser,
-    signInUser
+    signInUser,
+    signOut
 }

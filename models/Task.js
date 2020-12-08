@@ -12,15 +12,17 @@ const taskSchema = new Schema({
         trim: true,
     },
     completed: {
-        type: Boolean,
-        default: false
+        type: Number,
+        default: 0
     },
     archive: {
-        type: Boolean,
+        type: Number,
         required: true,
-        default: false,
+        default: 0,
     }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
+
+
 
 const Task = mongoose.model('Task', taskSchema);
 

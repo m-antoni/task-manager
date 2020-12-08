@@ -1,12 +1,12 @@
 const Joi = require('joi');
 
-// auth schema
+// auth
 const authSchema = Joi.object({
     email: Joi.string().email().lowercase().required(),
     password: Joi.string().min(6).required()
 });
 
-// user schema
+// user
 const userSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().lowercase().required(),
@@ -14,8 +14,14 @@ const userSchema = Joi.object({
     confirm_password: Joi.string()
 });
 
+// create task
+const createTaskSchema = Joi.object({
+    title: Joi.string().max(50).required(),
+    description: Joi.string().max(150).required(),
+});
 
 module.exports = {
     authSchema,
-    userSchema
+    userSchema,
+    createTaskSchema
 }
