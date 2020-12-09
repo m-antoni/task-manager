@@ -16,7 +16,8 @@
                   {{#each tasks}}
                      <div class="card mb-1">
                         <div class="card-body">
-                            <h5></h5><a href="/home/tasks/{{_id}}">{{title}}</a></h5>
+                            <div class="float-right"><a href="/home/edit-task/{{_id}}"><i class="fa fa-edit"></i></a></div>
+                            <h5><a href="/home/tasks/{{_id}}">{{title}}</a></h5>
                             <div>{{description}}</div>
                             <small>{{cretaed_at}}</small>
                         </div>

@@ -25,7 +25,6 @@ const createTask = async (req, res) => {
 }
 
 
-
 // PAGES HERE HBS FILES
 const homePage = async (req, res) => {
     res.render('home', { title: 'Home page' });
@@ -35,6 +34,56 @@ const homePage = async (req, res) => {
 const createTaskPage = async (req, res) => {
    res.render('create-task'); 
 }
+
+const editTaskPage = async (req, res) => {
+
+    const _id = req.params.id;
+
+    try {
+        const task = await Task.findById(_id);
+
+        res.render('edit-task', { task });
+        
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const deleteTask = async (req, res) => {
+   
+    const _id = req.params.id;
+    // console.log(req.header('jwt'))
+
+    try {
+        
+        await Task.findByIdAndRemove(_id);
+        res.json({ redirect: '/home/tasks' });
+
+    } catch (e) {
+        console.log(e);
+        res.json({ error: e })
+    }
+
+}
+
+const updateTask = async (req, res) => {
+    
+    // console.log(_id, req.body)
+
+    try {
+        const _id = req.params.id;
+        const { title, description } = req.body;
+
+        await Task.findByIdAndUpdate( _id, { title: req.body.title }, { new: true, upsert: true });
+  
+        res.json({ redirect: '/home/tasks' });
+
+    } catch (e) {
+        console.log(e);
+    }
+
+}
+
 
 
 const tasksPage = async (req, res) => {
@@ -54,4 +103,4 @@ const tasksPage = async (req, res) => {
 }
 
 
-module.exports = { createTask, homePage, createTaskPage, tasksPage };
+module.exports = { createTask, homePage, createTaskPage, tasksPage, editTaskPage, deleteTask, updateTask };
