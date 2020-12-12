@@ -69,14 +69,13 @@ const deleteTask = async (req, res) => {
 const updateTask = async (req, res) => {
     
     // console.log(_id, req.body)
-
+    const _id = req.params.id;
+    const { title, description } = req.body;
     try {
-        const _id = req.params.id;
-        const { title, description } = req.body;
 
-        await Task.findByIdAndUpdate( _id, { title: req.body.title }, { new: true, upsert: true });
+        await Task.findByIdAndUpdate( _id, { title, description }, { new: true });
   
-        res.json({ redirect: '/home/tasks' });
+        res.send({ redirect: '/home/tasks' });
 
     } catch (e) {
         console.log(e);
