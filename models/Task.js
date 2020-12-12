@@ -11,6 +11,10 @@ const taskSchema = new Schema({
         type: String,
         trim: true,
     },
+    user_id: {
+        type: String,
+        required: true
+    },
     completed: {
         type: Number,
         default: 0

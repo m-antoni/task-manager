@@ -1,9 +1,13 @@
-const deleteBtn = document.querySelector('#deleteBtn');
-const updateBtn = document.querySelector('#updateBtn');
+/* Buttons */
 const signUpBtn = document.querySelector('#signUpBtn');
 const signInBtn = document.querySelector('#signInBtn');
 const signOutBtn = document.querySelector('#signOutBtn');
+const createTaskBtn = document.querySelector('#createTaskBtn');
+const deleteBtn = document.querySelector('#deleteBtn');
+const updateBtn = document.querySelector('#updateBtn');
 
+
+/* AUTHENTICATION SCRIPT  */
 
 // Sign In
 if(signInBtn)
@@ -17,7 +21,6 @@ if(signInBtn)
 
         // reset errors
         errors.innerHTML = '';
-
 
         try {
             const res = await fetch('/', {
@@ -87,8 +90,6 @@ if(signUpBtn)
             }
 
             if(res.status == 404){
-                data.errors.innerHTML = '';
-
                 data.errors.forEach(err => {
                     errors.innerHTML += 
                     `<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
@@ -107,6 +108,57 @@ if(signUpBtn)
 }
 
 
+
+/* TASK SCRIPT */
+
+// Create Task
+if(createTaskBtn)
+{
+    createTaskBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        const title = document.querySelector('#title').value;
+        const description = document.querySelector('#description').value;
+        const errors = document.querySelector('#errors');
+        
+        // reset values
+        errors.innerHTML = '';
+
+        try {
+            const res = await fetch('/home/create-task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, description })
+            });
+
+            const data = await res.json();
+
+            if(res.status == 201){
+                location.assign(data.redirect)
+            }
+
+            if(res.status == 404){
+                data.errors.forEach(err => {
+                    errors.innerHTML += 
+                    `<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+                        ${err} 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>`
+                });
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    });
+}
+
+
+
 // Update Task
 if(updateBtn)
 {
@@ -115,7 +167,6 @@ if(updateBtn)
 
         const title = document.querySelector('#title').value;
         const description = document.querySelector('#description').value;
-
         const endpoint =`/home/update-task/${updateBtn.dataset.id}`;
 
         try {
@@ -131,6 +182,18 @@ if(updateBtn)
 
             if(res.status == 200){
                 location.assign(data.redirect)
+            }
+
+            if(res.status == 404){
+                data.errors.forEach(err => {
+                    errors.innerHTML += 
+                    `<div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+                        ${err} 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>`
+                });
             }
 
         } catch (err) {

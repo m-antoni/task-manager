@@ -36,7 +36,7 @@ userSchema.methods.generateAuthToken = async function() {
     
     const user = this
     // Note: set in seconds to expire
-    const token = await jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { 
+    const token = await jwt.sign({ _id: user._id, user: user.name }, process.env.JWT_SECRET, { 
         expiresIn: parseInt(process.env.JWT_EXPIRES_IN)
     }); 
 

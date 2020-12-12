@@ -13,20 +13,55 @@ const createTask = async (req, res) => {
     
     if(error){
         error.details.map(err => error_msg.push(err.message));
-        return res.render('create-task', { errors: error_msg, title: params.title, description: params.description });    
+        return res.status(404).json({ errors: error_msg });    
     }
 
     try {
-        const task = new Task(params);
+
+        const data = {
+            user_id: req.authID,
+            title: params.title,
+            description: params.description
+        }
+
+        const task = new Task(data);
         await task.save();
-        res.redirect('/home/tasks');
+        res.status(201).json({ redirect: '/home/tasks', message: 'New Task has been added.' });
     } catch (e) {
-        res.status(400).render('create-task', { error_msg: 'Something went wrong.' });
+        console.log(e)
+    }
+}
+
+// Update Task
+const updateTask = async (req, res) => {
+
+    const _id = req.params.id;
+    const error_msg = [];
+    const params = req.body;
+
+    const { error } = createTaskSchema.validate(params, { abortEarly: false });
+    
+    if(error){
+        error.details.map(err => error_msg.push(err.message));
+        return res.status(404).json({ errors: error_msg });    
+    }
+
+    try {
+
+        await Task.findByIdAndUpdate( _id, params, { new: true });
+        
+        res.status(200).json({ redirect: '/home/tasks' });
+
+    } catch (e) {
+        console.log(e);
     }
 }
 
 
-// PAGES HERE HBS FILES
+
+/* PAGES HERE HBS FILES */
+
+
 const homePage = async (req, res) => {
     console.log(res.user)
     res.render('home', { title: 'Home page' });
@@ -54,8 +89,6 @@ const editTaskPage = async (req, res) => {
 const deleteTask = async (req, res) => {
    
     const _id = req.params.id;
-    // console.log(req.header('jwt'))
-
     try {
         
         await Task.findByIdAndRemove(_id);
@@ -65,39 +98,17 @@ const deleteTask = async (req, res) => {
         console.log(e);
         res.json({ error: e })
     }
-
 }
-
-const updateTask = async (req, res) => {
-    
-    // console.log(_id, req.body)
-    const _id = req.params.id;
-    const { title, description } = req.body;
-    try {
-
-        await Task.findByIdAndUpdate( _id, { title, description }, { new: true });
-  
-        res.send({ redirect: '/home/tasks' });
-
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-
 
 const tasksPage = async (req, res) => {
     
-    const tasks = await Task.find().sort({ created_at: 'desc' });
-
     try {
 
-        // const all_tasks = tasks.map(task => { created_at:  moment.format(task.created_at) } );  
-        // console.log(all_tasks)
+        const tasks = await Task.find({ user_id: req.authID }).sort({ created_at: 'desc' });
         res.render('tasks', { tasks });
+
     } catch (e) {
         console.log(e);
-        res.render('tasks', { error: 'Something went wrong.' })
     }
 
 }

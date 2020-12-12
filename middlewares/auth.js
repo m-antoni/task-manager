@@ -14,7 +14,9 @@ const auth = (req, res, next) => {
         if(token)
         {
             let decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decoded);
+            // console.log(decoded);
+            req.authID = decoded._id;
+            req.userName = decoded.name;
             next();
         }
     
@@ -26,7 +28,6 @@ const auth = (req, res, next) => {
             res.redirect('/');
 		}
     }
-
 }
 
 module.exports = { auth };
