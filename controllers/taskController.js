@@ -16,6 +16,13 @@ const createTask = async (req, res) => {
         return res.status(404).json({ errors: error_msg });    
     }
 
+    // Check duplicate task
+    const duplicate = await Task.findOne({ title: params.title });
+    if(duplicate){
+        error_msg.push(`"${duplicate.title}" is already on the task list`);
+        return res.status(404).json({ errors: error_msg });    
+    }
+    
     try {
 
         const data = {
@@ -26,6 +33,7 @@ const createTask = async (req, res) => {
 
         const task = new Task(data);
         await task.save();
+        
         res.status(201).json({ redirect: '/home/tasks' });
     } catch (e) {
         console.log(e)
@@ -46,10 +54,16 @@ const updateTask = async (req, res) => {
         return res.status(404).json({ errors: error_msg });    
     }
 
+    // Check duplicate task
+    const duplicate = await Task.findOne({ title: params.title });
+    if(duplicate){
+        error_msg.push(`"${duplicate.title}" is already on the task list`);
+        return res.status(404).json({ errors: error_msg });    
+    }
+
     try {
 
         await Task.findByIdAndUpdate( _id, params, { new: true });
-        
         res.status(200).json({ redirect: '/home/tasks' });
 
     } catch (e) {

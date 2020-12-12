@@ -16,7 +16,7 @@ const auth = (req, res, next) => {
             let decoded = jwt.verify(token, process.env.JWT_SECRET);
             // console.log(decoded);
             req.authID = decoded._id;
-            req.userName = decoded.name;
+            req.app.locals.authUser = decoded.user;
             next();
         }
     

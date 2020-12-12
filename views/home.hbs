@@ -6,14 +6,16 @@
 </head>
 <body>
   {{> _navbar}}
-    <div class="jumbotron">
       <div class="container text-center">
-        <h1 class="display-4">Simple Task Manager App</h1>
-        <p class="w-50 m-auto">Welcome to a Simple Task Manager App, where you can manage your personal tasks.</p>
-        <p><a class="btn btn-primary btn-lg " href="#" role="button">Get Started</a></p>
+          <div class="card mt-2 py-5">
+            <div class="card-body">
+                <h1 class="display-4">Simple <span class="text-primary">Task Manager</span></h1>
+                <p class="w-50 m-auto">Welcome to a Simple Task Manager App, where you can manage your personal tasks.</p>
+                <p><a class="btn btn-primary btn-lg mt-5" href="/home/create-task" role="button">Get Started</a></p>
+                <p>Created by <span class="text-primary">Michael Antoni</span></p>
+            </div>
+          </div>
       </div>
-    </div>
-
   {{> _footer}}
 </body>
 </html>

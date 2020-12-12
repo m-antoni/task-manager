@@ -28,6 +28,7 @@ if(signInBtn)
 
         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
+        errors.innerHTML = '';
 
         try {
             const res = await fetch('/', {
@@ -83,6 +84,7 @@ if(signUpBtn)
         const email= document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
         const confirm_password = document.querySelector('#confirm_password').value;
+        errors.innerHTML = '';
     
         try {
             const res = await fetch('/sign-up', {
@@ -136,6 +138,7 @@ if(createTaskBtn)
 
         const title = document.querySelector('#title').value;
         const description = document.querySelector('#description').value;
+        errors.innerHTML = '';
 
         try {
             const res = await fetch('/home/create-task', {
@@ -187,6 +190,7 @@ if(updateBtn)
 
         const title = document.querySelector('#title').value;
         const description = document.querySelector('#description').value;
+        errors.innerHTML = '';
         const endpoint =`/home/update-task/${updateBtn.dataset.id}`;
 
         try {
