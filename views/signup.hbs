@@ -4,37 +4,39 @@
     {{> _header}}
     <title>{{title}}</title>
 </head>
-<body>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-4 form-m">
-        <h4 class="text-center text-primary mb-5">Task Manager App</h4>
-        {{> _messages }}
-        <form action="/sign-up" method="POST" id="form-signup" class="text-center">
-        <div class="md-form">
-            <input type="text" name="name" value="{{name}}" id="name" class="form-control" required>
-            <label for="name">Full Name:</label>
-          </div>
-          <div class="md-form">
-            <input type="email" name="email" value="{{email}}" id="email" class="form-control" required>
-            <label for="email">E-mail</label>
-            <div class="email-error"></div>
-          </div>
-          <div class="md-form">
-            <input type="password" name="password" value="{{password}}" id="password" class="form-control" required>
-            <label for="password">Password</label>
-            <div class="password-error"></div>
-          </div>
-            <div class="md-form">
-            <input type="password" name="confirm_password" value="{{confirm_password}}" id="confirm-password" class="form-control" required>
-            <label for="confirm-password">Confirm Password</label>
-          </div>
-          <button class="btn btn-info btn-block my-4 waves-effect z-depth-0" type="submit">Sign Up</button>
-          <p><a href="/">Sign In</a></p>
-        </form>
+  <body>
+      <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-12 form-m">
+            <h4 class="text-center text-primary mb-5">Task Manager App</h4>
+              
+              <div id="errors"></div>
+
+              <form class="text-center">
+                <div class="md-form">
+                    <input type="text" name="name" value="{{name}}" id="name" class="form-control">
+                    <label for="name">Name:</label>
+                  </div>
+                  <div class="md-form">
+                    <input type="email" name="email" value="{{email}}" id="email" class="form-control">
+                    <label for="email">E-mail</label>
+                    <div class="email-error"></div>
+                  </div>
+                  <div class="md-form">
+                    <input type="password" name="password" value="{{password}}" id="password" class="form-control">
+                    <label for="password">Password</label>
+                    <div class="password-error"></div>
+                  </div>
+                    <div class="md-form">
+                    <input id="confirm_password" type="password" name="confirm_password" value="{{confirm_password}}" class="form-control">
+                    <label for="confirm-password">Confirm Password</label>
+                  </div>
+                  <button id="signUpBtn" class="btn btn-info btn-block my-4 waves-effect z-depth-0" type="submit">Sign Up</button>
+                  <p><a href="/">Sign In</a></p>
+                </form>
+            </div>
+        </div>
       </div>
-    </div>
-  </div>
-  {{> _footer}}
-</body>
+      {{> _footer}}
+  </body>
 </html>

@@ -7,19 +7,19 @@
   <body>
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-4 form-m">
+          <div class="col-md-6 col-12 form-m">
             <h4 class="text-center text-primary mb-5">Task Manager App</h4>
-            {{> _messages }}
-            <form action="/" method="POST" id="form-signin" class="text-center">
+            <div id="errors"></div>
+            <form class="text-center">
               <div class="md-form">
-                <input type="email" id="email" name="email" value="{{email}}" class="form-control" required>
+                <input type="email" id="email" name="email" class="form-control">
                 <label for="email">E-mail</label>
               </div>
               <div class="md-form">
-                <input type="password" name="password" id="password" class="form-control" required>
+                <input type="password" name="password" id="password" class="form-control">
                 <label for="password">Password</label>
-                <button class="btn btn-info btn-block my-4 waves-effect z-depth-0" type="submit">Sign in</button>
-              <p>Not a member? <a href="/sign-up">Register</a></p>
+                <button id="signInBtn" type="submit" class="btn btn-info btn-block my-4 waves-effect z-depth-0">Sign in</button>
+                <p>Not a member? <a href="/sign-up">Register</a></p>
             </form>
           </div>
         </div>

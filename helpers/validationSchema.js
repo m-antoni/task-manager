@@ -11,7 +11,7 @@ const userSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().lowercase().required(),
     password: Joi.string().min(6).required(),
-    confirm_password: Joi.string()
+    confirm_password: Joi.string().allow(null).allow('')
 });
 
 // create task

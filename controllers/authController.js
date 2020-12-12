@@ -12,19 +12,20 @@ const createUser = async (req, res) => {
 
     if(params.password != params.confirm_password){
         error_msg.push('Password and Confirm Password do not match');
-        return res.render('signup', { errors: error_msg, name: req.body.name, email: req.body.email });
+        return res.status(404).json({ errors: error_msg });
     }
 
     const { error } = userSchema.validate(params, { abortEarly: false });
+
     if(error) {
         error.details.map(err => error_msg.push(err.message))
-        return res.render('signup', { errors: error_msg, name: req.body.name, email: req.body.email });
+        return res.status(404).json({ errors: error_msg });
     }
     
     const emailExists = await User.findOne({ email: params.email });
     if(emailExists) {
         error_msg.push(`${params.email} is already taken`);
-        return res.render('signup', { errors: error_msg,name: req.body.name, email: req.body.email });
+        return res.status(404).json({ errors: error_msg });
     }
 
     try {
@@ -41,13 +42,15 @@ const createUser = async (req, res) => {
         }
 
         res.cookie('jwt', token, options) // set in milliseconds
-        res.status(201).render('home',{ user: user._id, token: token});
+        res.status(201).json({ user: user._id, token: token, redirect: '/home' });
 
     } catch (err) {
         console.log(err)
         res.render('signup', { errors: ['Something went wrong'] });
     }
 }
+
+
 
 // Sign in user credentials
 const signInUser = async (req, res) => {
@@ -59,7 +62,7 @@ const signInUser = async (req, res) => {
 
     if(error){
         error.details.map(err => error_msg.push(err.message));
-        return res.render('signin', { errors: error_msg, email: params.email });
+        return res.status(404).json({ errors: error_msg });
     }
 
     try {
@@ -67,12 +70,11 @@ const signInUser = async (req, res) => {
         const user = await User.findByCredentials(params.email, params.password);
 
         if(user == 401){
-            error_msg.push('Unauthorized')
-            return res.render('signin', { errors: error_msg, email: params.email });
+            error_msg.push('Incorrect email or password.')
+            return res.status(404).json({ errors: error_msg });
         }
 
         const token = await user.generateAuthToken();
-
         const options = { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }
 
         // for production
@@ -81,11 +83,10 @@ const signInUser = async (req, res) => {
         }
 
         res.cookie('jwt', token, options) // set in milliseconds
-        res.status(201).render('home',{ user: user._id, token: token});
+        res.status(200).json({ redirect: '/home' });
 
     } catch (err) {
         console.log(err)
-        res.render('signin', { errors: ['Something went wrong'] });
     }  
 }
 
