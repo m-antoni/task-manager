@@ -13,8 +13,7 @@
                     <a class="text-danger" href="#" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i> </a>
                 </div>
                 <h4>Edit Task</h4><hr/>
-        
-                <div id="errors"></div>
+                {{> _messages}}
                 <form>
                     <div class="form-group">
                         <label for="">Title:</label>
@@ -24,7 +23,10 @@
                         <label for="desctiption">Description:</label>
                         <textarea name="description" id="description" rows="4" class="form-control">{{task.description}}</textarea>
                     </div>
-                    <button id="updateBtn" data-id="{{task._id}}" class="btn btn-primary">Update Task</button>
+                    <div class="form-group mt-4">
+                        <button id="updateBtn" data-id="{{task._id}}" class="btn btn-primary btn-primary btn-block">Update Task</button>
+                        {{> _loading}}
+                    </div>
                 </form>
             </div>
         </div>
@@ -48,7 +50,6 @@
             </div>
         </div>
     </div>
-
     {{> _footer}}
 </body>
 </html>

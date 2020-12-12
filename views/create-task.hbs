@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-6">
                 <h4>Create Task</h4><hr/>
-                <div id="errors"></div>
+                {{> _messages}}
                 <form>
                     <div class="form-group">
                         <label>Title:</label>
@@ -20,7 +20,10 @@
                         <label for="desctiption">Description:</label>
                         <textarea id="description" name="description" rows="4" class="form-control"></textarea>
                     </div>
-                    <button id="createTaskBtn" class="btn btn-primary">Create Task</button>
+                    <div class="form-group mt-4">
+                        <button id="createTaskBtn" class="btn btn-primary btn-block">Create Task</button>
+                        {{> _loading}}
+                    </div>
                 </form>
             </div>
         </div>

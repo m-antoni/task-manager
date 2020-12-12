@@ -11,22 +11,23 @@
             <div class="col-md-6 col-12">
               <div id="success_msg"></div>
               <h4>All Tasks</h4>
-              {{#if tasks}}
-                  {{#each tasks}}
-                     <div class="card mb-1">
-                        <div class="card-body">
-                            <div class="float-right"><a href="/home/edit-task/{{_id}}"><i class="fa fa-edit"></i></a></div>
-                            <h5><a href="/home/edit-task/{{_id}}">{{title}}</a></h5>
-                            <div>{{description}}</div>
-                            <small></small>
+                {{> _messages}}
+                {{#if tasks}}
+                    {{#each tasks}}
+                        <div class="card mb-1">
+                            <div class="card-body">
+                                <div class="float-right"><a href="/home/edit-task/{{_id}}"><i class="fa fa-edit"></i></a></div>
+                                <h5><a href="/home/edit-task/{{_id}}">{{title}}</a></h5>
+                                <div>{{description}}</div>
+                                <small></small>
+                            </div>
                         </div>
-                     </div>
-                  {{/each}}
-              {{else}}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert"> 
-                        You Don't have any tasks yet.
-                    </div>
-              {{/if}}
+                    {{/each}}
+                {{else}}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert"> 
+                            You Don't have any tasks yet.
+                        </div>
+                {{/if}}
             </div>
         </div>
     </div>

@@ -26,7 +26,7 @@ const createTask = async (req, res) => {
 
         const task = new Task(data);
         await task.save();
-        res.status(201).json({ redirect: '/home/tasks', message: 'New Task has been added.' });
+        res.status(201).json({ redirect: '/home/tasks' });
     } catch (e) {
         console.log(e)
     }
@@ -61,6 +61,17 @@ const updateTask = async (req, res) => {
 
 /* PAGES HERE HBS FILES */
 
+const tasksPage = async (req, res) => {
+    
+    try {
+        const tasks = await Task.find({ user_id: req.authID }).sort({ created_at: 'desc' });
+        res.render('tasks', { tasks });
+
+    } catch (e) {
+        console.log(e);
+    }
+
+}
 
 const homePage = async (req, res) => {
     console.log(res.user)
@@ -73,14 +84,11 @@ const createTaskPage = async (req, res) => {
 }
 
 const editTaskPage = async (req, res) => {
-
     const _id = req.params.id;
 
     try {
         const task = await Task.findById(_id);
-
         res.render('edit-task', { task });
-        
     } catch (e) {
         console.log(e)
     }
@@ -98,19 +106,6 @@ const deleteTask = async (req, res) => {
         console.log(e);
         res.json({ error: e })
     }
-}
-
-const tasksPage = async (req, res) => {
-    
-    try {
-
-        const tasks = await Task.find({ user_id: req.authID }).sort({ created_at: 'desc' });
-        res.render('tasks', { tasks });
-
-    } catch (e) {
-        console.log(e);
-    }
-
 }
 
 

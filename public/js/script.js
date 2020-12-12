@@ -1,4 +1,4 @@
-/* Buttons */
+
 const signUpBtn = document.querySelector('#signUpBtn');
 const signInBtn = document.querySelector('#signInBtn');
 const signOutBtn = document.querySelector('#signOutBtn');
@@ -6,21 +6,28 @@ const createTaskBtn = document.querySelector('#createTaskBtn');
 const deleteBtn = document.querySelector('#deleteBtn');
 const updateBtn = document.querySelector('#updateBtn');
 
+const loadingBtn = document.querySelector('#loadingBtn');
+const errors = document.querySelector('#errors');
+const success_msg = document.querySelector('#success_msg');
+
+// Default 
+loadingBtn ? loadingBtn.style.display = 'none' : '';
+errors ? errors.innerHTML = '' : '';
+success_msg ? success_msg.innerHTML = '' : '';
+
 
 /* AUTHENTICATION SCRIPT  */
-
 // Sign In
 if(signInBtn)
 {
     signInBtn.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        const errors = document.querySelector('#errors');
+        signInBtn.style.display = 'none';
+        loadingBtn.style.display = 'block';
+
         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
-
-        // reset errors
-        errors.innerHTML = '';
 
         try {
             const res = await fetch('/', {
@@ -49,13 +56,17 @@ if(signInBtn)
                         </button>
                     </div>`
                 });
+
+                signInBtn.style.display = 'block';
+                loadingBtn.style.display = 'none';
             }
 
         } catch (err) {
             console.log(err);
+            signInBtn.style.display = 'block';
+            loadingBtn.style.display = 'none';
         }
     });
-
 }
 
 
@@ -65,15 +76,14 @@ if(signUpBtn)
     signUpBtn.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        const errors = document.querySelector('#errors');
+        signUpBtn.style.display = 'none';
+        loadingBtn.style.display = 'block';
+
         const name = document.querySelector('#name').value;
         const email= document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
         const confirm_password = document.querySelector('#confirm_password').value;
-        
-        // reset errors
-        errors.innerHTML = '';
-
+    
         try {
             const res = await fetch('/sign-up', {
                 method: 'POST',
@@ -99,14 +109,18 @@ if(signUpBtn)
                         </button>
                     </div>`
                 });
+
+                signUpBtn.style.display = 'block';
+                loadingBtn.style.display = 'none';
             }
 
         } catch (err) {
             console.log(err);
+            signUpBtn.style.display = 'block';
+            loadingBtn.style.display = 'none';
         }
     });
 }
-
 
 
 /* TASK SCRIPT */
@@ -117,12 +131,11 @@ if(createTaskBtn)
     createTaskBtn.addEventListener('click', async (e) => {
         e.preventDefault();
 
+        createTaskBtn.style.display = 'none';
+        loadingBtn.style.display = 'block';
+
         const title = document.querySelector('#title').value;
         const description = document.querySelector('#description').value;
-        const errors = document.querySelector('#errors');
-        
-        // reset values
-        errors.innerHTML = '';
 
         try {
             const res = await fetch('/home/create-task', {
@@ -149,14 +162,18 @@ if(createTaskBtn)
                         </button>
                     </div>`
                 });
+
+                createTaskBtn.style.display = 'block';
+                loadingBtn.style.display = 'none';
             }
 
         } catch (err) {
             console.log(err)
+            createTaskBtn.style.display = 'block';
+            loadingBtn.style.display = 'none';
         }
     });
 }
-
 
 
 // Update Task
@@ -164,6 +181,9 @@ if(updateBtn)
 {
     updateBtn.addEventListener('click', async (e) => {
         e.preventDefault();
+
+        updateBtn.style.display = 'none';
+        loadingBtn.style.display = 'block';
 
         const title = document.querySelector('#title').value;
         const description = document.querySelector('#description').value;
@@ -194,10 +214,14 @@ if(updateBtn)
                         </button>
                     </div>`
                 });
+                updateBtn.style.display = 'block';
+                loadingBtn.style.display = 'none';
             }
 
         } catch (err) {
             console.log(err)
+            updateBtn.style.display = 'block';
+            loadingBtn.style.display = 'none';
         }
     });
 }
@@ -210,13 +234,15 @@ if(deleteBtn)
 
         const endpoint =`/home/delete-task/${deleteBtn.dataset.id}`;
 
-        try {
+        try 
+        {
             const res = await fetch(endpoint, {
                 method: 'DELETE',
                 headers: { 
                     'Content-Type': 'application/json'
                 }
             });
+
             const data = await res.json();
 
             if(res.status == 200){
@@ -226,7 +252,6 @@ if(deleteBtn)
         } catch (err) {
             console.log(err)
         }
-    
     });
 }
 
