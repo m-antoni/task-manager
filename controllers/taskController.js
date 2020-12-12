@@ -1,6 +1,7 @@
 const Task = require('../models/Task');
 const { createTaskSchema } = require('../helpers/validationSchema');
 const moment = require('moment');
+const { auth } = require('../middlewares/auth');
 
 // Create Task
 const createTask = async (req, res) => {
@@ -80,7 +81,6 @@ const updateTask = async (req, res) => {
     } catch (e) {
         console.log(e);
     }
-
 }
 
 

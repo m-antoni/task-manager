@@ -2,6 +2,7 @@ const deleteBtn = document.querySelector('#deleteBtn');
 const updateBtn = document.querySelector('#updateBtn');
 const signUpBtn = document.querySelector('#signUpBtn');
 const signInBtn = document.querySelector('#signInBtn');
+const signOutBtn = document.querySelector('#signOutBtn');
 
 
 // Sign In
@@ -165,7 +166,6 @@ if(deleteBtn)
     
     });
 }
-
 
 
 

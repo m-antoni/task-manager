@@ -5,12 +5,10 @@ const auth = (req, res, next) => {
 
     const token = req.cookies.jwt;
 
-    console.log(process.env.JWT_SECRET)
-
     if(token){
         jwt.verify(token, process.env.JWT_SECRET), (err, decodedToken) => {
             if(err){
-                // console.log(err.message);
+                console.log(err);
                 res.redirect('/');
             } 
             else{
@@ -19,6 +17,7 @@ const auth = (req, res, next) => {
                 next();
             }
         }
+        next();
     }
     else{
         res.redirect('/');

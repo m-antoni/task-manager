@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const port = process.env.PORT;
 const { userSchema, authSchema } = require('../helpers/validationSchema');
+require('dotenv').config();
 
 // global variable
 
@@ -37,7 +38,7 @@ const createUser = async (req, res) => {
         const options = { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 };
 
         // for production
-        if(process.env.NODE_ENV === 'production'){
+        if(process.env.NODE_ENV == 'production'){
             options.secure = true;
         }
 
@@ -75,15 +76,15 @@ const signInUser = async (req, res) => {
         }
 
         const token = await user.generateAuthToken();
-        const options = { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }
+        const options = { httpOnly: true, maxAge: process.env.JWT_EXPIRES_IN * 1000 }; // set in milliseconds
 
         // for production
-        if(process.env.NODE_ENV === 'production'){
+        if(process.env.NODE_ENV == 'production'){
             options.secure = true;
         }
 
-        res.cookie('jwt', token, options) // set in milliseconds
-        res.status(200).json({ redirect: '/home' });
+        res.cookie('jwt', token, options) 
+        res.status(200).json({ redirect: '/home', user: req.user });
 
     } catch (err) {
         console.log(err)
