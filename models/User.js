@@ -37,7 +37,7 @@ userSchema.methods.generateAuthToken = async function() {
     const user = this
     // Note: set in seconds to expire
     const token = await jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { 
-        expiresIn: process.env.JWT_EXPIRES_IN 
+        expiresIn: parseInt(process.env.JWT_EXPIRES_IN)
     }); 
 
     return token;
@@ -81,7 +81,6 @@ userSchema.statics.findByCredentials = async function (email, password) {
  })
 
 const User = mongoose.model('User', userSchema);
-
 
 
 module.exports = User;

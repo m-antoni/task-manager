@@ -28,6 +28,7 @@ const createTask = async (req, res) => {
 
 // PAGES HERE HBS FILES
 const homePage = async (req, res) => {
+    console.log(res.user)
     res.render('home', { title: 'Home page' });
 }
 
