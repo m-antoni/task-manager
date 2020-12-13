@@ -7,14 +7,18 @@
 <body>
     {{> _navbar}}
     <div class="container mt-4">
+
         <div class="row justify-content-center">
             <div class="col-md-6 col-12">
-              <div id="success_msg"></div>
-              <h4>All Tasks</h4>
+                <div class="float-right text-primary">
+                    <i class="fa fa-plus"></i> <a href="/home/create-task"><strong>Create Task</strong></a>
+                </div>
+                <div><h4>All Tasks</h4></div>
                 {{> _messages}}
+                <hr/>
                 {{#if tasks}}
                     {{#each tasks}}
-                        <div class="card mb-1">
+                        <div class="card mb-2 card-tasks">
                             <div class="card-body">
                                 <div class="float-right"><a href="/home/edit-task/{{_id}}"><i class="fa fa-edit"></i></a></div>
                                 <h5><a href="/home/edit-task/{{_id}}">{{title}}</a></h5>
@@ -25,7 +29,7 @@
                     {{/each}}
                 {{else}}
                         <div class="alert alert-warning alert-dismissible fade show" role="alert"> 
-                            You Don't have any Tasks yet. <a href="/home/create-task"><strong> Click Here.</strong></a>
+                            You Don't have any Tasks yet.
                         </div>
                 {{/if}}
             </div>

@@ -5,15 +5,14 @@ const signOutBtn = document.querySelector('#signOutBtn');
 const createTaskBtn = document.querySelector('#createTaskBtn');
 const deleteBtn = document.querySelector('#deleteBtn');
 const updateBtn = document.querySelector('#updateBtn');
+const showDeleteModal = document.querySelector('#showDeleteModal');
+
 
 const loadingBtn = document.querySelector('#loadingBtn');
 const errors = document.querySelector('#errors');
 const success_msg = document.querySelector('#success_msg');
 
 // Default 
-loadingBtn ? loadingBtn.style.display = 'none' : '';
-errors ? errors.innerHTML = '' : '';
-success_msg ? success_msg.innerHTML = '' : '';
 
 
 /* AUTHENTICATION SCRIPT  */
@@ -232,12 +231,25 @@ if(updateBtn)
 
 
 // Delete Task
-if(deleteBtn)
+if(showDeleteModal)
 {
+    const deleteAlert = document.querySelector('#deleteAlert');
+    const deleteCancelBtn = document.querySelector('#deleteCancelBtn');
+
+    showDeleteModal.addEventListener('click', async (e) => {
+        e.preventDefault();
+        deleteAlert.style.display = 'block'; 
+    });
+
+    deleteCancelBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        deleteAlert.style.display = 'none';
+    })
+
+
     deleteBtn.addEventListener('click', async () => {
 
         const endpoint =`/home/delete-task/${deleteBtn.dataset.id}`;
-
         try 
         {
             const res = await fetch(endpoint, {

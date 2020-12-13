@@ -20,3 +20,10 @@ body {
   margin-top: 150px !important;
 }
 
+#deleteAlert, #loadingBtn, #deleteLoading{
+  display: none;
+}
+
+.card-tasks:hover{
+  background-color: #f1f6f9;
+}

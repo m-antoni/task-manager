@@ -5,15 +5,29 @@
     <title>Edit Task</title>
 </head>
 <body>
-  {{> _navbar}}
+    {{> _navbar}}
     <div class="container mt-4">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-12">
-                <div class="float-right">
-                    <a class="text-danger" href="#" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i> </a>
-                </div>
-                <h4>Edit Task</h4><hr/>
+            <div class="col-md-6 col-12 mb-5">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/home/tasks">Tasks</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Task</li>
+                    </ol>
+                </nav>
                 {{> _messages}}
+
+                <div id="deleteAlert" class="alert alert-danger alert-dismissible fade show" role="alert"> 
+                   Do you want to remove <strong> "{{task.title}}"</strong> ? 
+                    <span class="ml-3">
+                        <a id="deleteBtn" data-id="{{task._id}}" href="#" class="btn btn-sm btn-primary m-0"><strong>YES</strong></a>
+                        <a id="deleteCancelBtn" href="#" class="btn btn-sm btn-danger m-0"><strong>NO</strong></a>
+                    </span>
+                </div>
+                {{!-- <div class="custom-control custom-switch float-right">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="false">
+                    <label class="custom-control-label" for="customSwitch1">Pending</label>
+                </div> --}}
                 <form>
                     <div class="form-group">
                         <label for="">Title:</label>
@@ -23,30 +37,20 @@
                         <label for="desctiption">Description:</label>
                         <textarea name="description" id="description" rows="4" class="form-control">{{task.description}}</textarea>
                     </div>
+                    {{!-- <div class="form-group">
+                        <label>Set Priority:</label>
+                        <select class="custom-select mb-3">
+                            <option value="1">Normal</option>
+                            <option value="2">High</option>
+                            <option value="3">Urgent</option>
+                        </select>
+                    </div> --}}
                     <div class="form-group mt-4">
-                        <button id="updateBtn" data-id="{{task._id}}" class="btn btn-primary btn-primary btn-block">Update Task</button>
                         {{> _loading}}
+                        <button id="updateBtn" data-id="{{task._id}}" class="btn btn-primary btn-primary btn-block">Update Task</button>
+                        <button id="showDeleteModal" class="btn btn-danger btn-primary btn-block mt-0">Delete Task</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                Are you sure you want to delete <strong>{{task.title}}</strong> ?
-                <div class="mt-2 mb-4">
-                    <button id="deleteBtn" data-id="{{task._id}}" class="btn btn-danger">Confirm</button>
-                </div>
-            </div>
             </div>
         </div>
     </div>
