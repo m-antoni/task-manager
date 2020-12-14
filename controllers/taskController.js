@@ -10,14 +10,15 @@ const createTask = async (req, res) => {
     const params = req.body;
 
     const { error } = createTaskSchema.validate(params, { abortEarly: false });
-    
+
+
     if(error){
         error.details.map(err => error_msg.push(err.message));
         return res.status(404).json({ errors: error_msg });    
     }
 
     // Check duplicate task
-    const duplicate = await Task.findOne({ title: params.title });
+    const duplicate = await Task.findOne({ user_id: req.authID, title: params.title });
     if(duplicate){
         error_msg.push(`"${duplicate.title}" is already on the task list`);
         return res.status(404).json({ errors: error_msg });    
@@ -81,9 +82,15 @@ const tasksPage = async (req, res) => {
 }
 
 const homePage = async (req, res) => {
-    console.log(res.user)
+    // console.log(res.user)
     res.render('home', { title: 'Home page' });
 }
+
+const aboutPage = async (req, res) => {
+    // console.log(res.user)
+    res.render('about', { title: 'About page' });
+}
+
 
 
 const createTaskPage = async (req, res) => {
@@ -116,4 +123,4 @@ const deleteTask = async (req, res) => {
 }
 
 
-module.exports = { createTask, homePage, createTaskPage, tasksPage, editTaskPage, deleteTask, updateTask };
+module.exports = { createTask, homePage, createTaskPage, tasksPage, editTaskPage, deleteTask, updateTask, aboutPage };

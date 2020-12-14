@@ -3,10 +3,8 @@ const port = process.env.PORT;
 const { userSchema, authSchema } = require('../helpers/validationSchema');
 require('dotenv').config();
 
-// global variable
-
 // Create User
-const createUser = async (req, res) => {
+const registerPost = async (req, res) => {
 
     const error_msg = [];
     const params = req.body;
@@ -43,18 +41,17 @@ const createUser = async (req, res) => {
         }
 
         res.cookie('jwt', token, options) // set in milliseconds
-        res.status(201).json({ user: user._id, token: token, redirect: '/home' });
+        res.status(201).json({ user: user._id, token: token });
 
     } catch (err) {
         console.log(err)
-        res.render('signup', { errors: ['Something went wrong'] });
     }
 }
 
 
 
 // Sign in user credentials
-const signInUser = async (req, res) => {
+const loginPost = async (req, res) => {
     
     const error_msg = [];
     const params = req.body;
@@ -84,7 +81,7 @@ const signInUser = async (req, res) => {
         }
 
         res.cookie('jwt', token, options) 
-        res.status(200).json({ redirect: '/home', user: req.user });
+        res.status(200).json({ user: req.user });
 
     } catch (err) {
         console.log(err)
@@ -92,37 +89,27 @@ const signInUser = async (req, res) => {
 }
 
 
-const signOut = (req, res) => {
-    // console.log(res)
+const logOut = (req, res) => {
+    console.log(res.cookie);
     res.cookie('jwt', '', { expires: new Date() });
-    res.redirect('/');
+    res.redirect('/login');
 }
 
 // Sign In page
-const signInPage = (req, res) => {
+const loginPage = (req, res) => {
 
-    const data = {
-        title: 'Sign In',
-    }
+    const data = { title: 'Login' }
 
-    res.render('signin', data);
+    res.render('login', data);
 }
 
 // Sign Up page
-const signUpPage = (req, res) => {
+const registerPage = (req, res) => {
 
-    const data = {
-        title: 'Sign Up',
-    }
+    const data = {  title: 'Register' }
 
-    res.render('signup', data);
+    res.render('register', data);
 }
 
 
-module.exports =  {
-    signInPage,
-    signUpPage,
-    createUser,
-    signInUser,
-    signOut
-}
+module.exports =  { loginPage, registerPage, registerPost, loginPost, logOut };

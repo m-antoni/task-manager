@@ -1,17 +1,26 @@
 <nav class="navbar navbar-expand-md navbar-dark  bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/home">Simple Task Manager</a>
+        <a class="navbar-brand" href="/"><i class="fa fa-stream"></i> Simple Task Manager</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <span class="nav-link"><small><i class="fa fa-user-circle"></i> {{authUser}}</small></span>
-            </li>
-            <li class="nav-item">
-                <a href="/sign-out" class="nav-link btn btn-sm bg-danger">Sign-out</a>
-            </li>
+                {{#if authUser}}
+                    <li class="nav-item">
+                        <span class="nav-link"><small><i class="fa fa-user-circle"></i> {{authUser}}</small></span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link btn btn-sm bg-danger">Sign-out</a>
+                    </li>
+                {{else}}
+                    <li class="nav-item">
+                        <a href="/login" class="nav-link btn btn-sm bg-primary">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/register" class="nav-link btn btn-sm bg-primary">Register</a>
+                    </li>
+                {{/if}}
             </ul>
         </div>
     </div>

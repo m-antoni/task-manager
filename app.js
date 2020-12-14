@@ -42,5 +42,6 @@ const taskRoutes = require('./routes/taskRoutes');
 app.use(authRoutes);
 app.use(taskRoutes);
 
+app.get('*', (req, res) => { res.redirect('/login') });
 
 

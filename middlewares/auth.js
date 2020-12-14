@@ -6,7 +6,7 @@ const auth = (req, res, next) => {
     const token = req.cookies.jwt;
 
     if(!token){
-        res.redirect('/');
+        res.redirect('/login');
     }
 
     try {
@@ -16,7 +16,6 @@ const auth = (req, res, next) => {
             let decoded = jwt.verify(token, process.env.JWT_SECRET);
             // console.log(decoded);
             req.authID = decoded._id;
-            req.app.locals.authUser = decoded.user;
             next();
         }
     
@@ -25,9 +24,30 @@ const auth = (req, res, next) => {
 			// if the error thrown is because the JWT is unauthorized, return a 401 error
             // return res.status(401).end()
             console.log(e)
-            res.redirect('/');
+            res.redirect('/login');
 		}
     }
 }
 
-module.exports = { auth };
+
+const checkUser = (req, res, next) => {
+    
+    const token = req.cookies.jwt;
+
+    if(token)
+    {
+        let decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.authID = decoded._id;
+        res.locals.authUser = decoded.user;
+        next();
+    }
+    else
+    {
+        res.locals.authUser = null;
+        next()
+    }
+} 
+
+
+
+module.exports = { auth, checkUser };

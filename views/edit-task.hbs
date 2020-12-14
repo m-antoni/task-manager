@@ -17,12 +17,12 @@
                 </nav>
                 {{> _messages}}
 
-                <div id="deleteAlert" class="alert alert-danger alert-dismissible fade show" role="alert"> 
+                <div id="deleteAlert" class="alert alert-danger alert-dismissible fade show text-center" role="alert"> 
                    Do you want to remove <strong> "{{task.title}}"</strong> ? 
-                    <span class="ml-3">
-                        <a id="deleteBtn" data-id="{{task._id}}" href="#" class="btn btn-sm btn-primary m-0"><strong>YES</strong></a>
-                        <a id="deleteCancelBtn" href="#" class="btn btn-sm btn-danger m-0"><strong>NO</strong></a>
-                    </span>
+                    <div class="mt-3">
+                        <a id="deleteBtn" data-id="{{task._id}}" href="#" class="btn btn-sm btn-primary mt-0"><strong>YES</strong></a>
+                        <a id="deleteCancelBtn" href="#" class="btn btn-sm btn-danger mt-0"><strong>NO</strong></a>
+                    </div>
                 </div>
                 {{!-- <div class="custom-control custom-switch float-right">
                     <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="false">

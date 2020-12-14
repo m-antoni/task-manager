@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/taskController');
-const { auth } = require('../middlewares/auth');
+const { auth, checkUser } = require('../middlewares/auth');
+
+
+router.get('*', checkUser);
 
 // pages
-router.get('/home', auth, taskController.homePage);
+router.get('/', taskController.homePage);
+router.get('/home/about', taskController.aboutPage);
+
 router.get('/home/tasks', auth, taskController.tasksPage);
 router.get('/home/create-task', auth, taskController.createTaskPage);
 router.get('/home/edit-task/:id', auth, taskController.editTaskPage);

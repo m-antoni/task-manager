@@ -4,12 +4,13 @@ const AuthController = require('../controllers/authController');
 const { auth } = require('../middlewares/auth');
 
 // pages
-router.get('/', AuthController.signInPage);
-router.get('/sign-up', AuthController.signUpPage);
+router.get('/login', AuthController.loginPage);
+router.get('/register', AuthController.registerPage);
 
 // api
-router.post('/', AuthController.signInUser);
-router.post('/sign-up', AuthController.createUser);
-router.get('/sign-out', auth, AuthController.signOut);
+router.post('/login', AuthController.loginPost);
+router.post('/register', AuthController.registerPost);
+router.get('/logout', auth, AuthController.logOut);
+
 
 module.exports = router;

@@ -30,7 +30,7 @@ if(signInBtn)
         errors.innerHTML = '';
 
         try {
-            const res = await fetch('/', {
+            const res = await fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ if(signInBtn)
             const data = await res.json();
             
             if(res.status == 200){
-                location.assign(data.redirect)
+                location.assign('/')
             }
 
             if(res.status == 404){
@@ -86,7 +86,7 @@ if(signUpBtn)
         errors.innerHTML = '';
     
         try {
-            const res = await fetch('/sign-up', {
+            const res = await fetch('/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ if(signUpBtn)
             const data = await res.json();
             
             if(res.status == 201){
-                location.assign(data.redirect)
+                location.assign('/')
             }
 
             if(res.status == 404){
