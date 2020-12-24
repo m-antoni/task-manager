@@ -1,3 +1,4 @@
+const { boolean } = require('joi');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -16,14 +17,9 @@ const taskSchema = new Schema({
         required: true
     },
     completed: {
-        type: Number,
-        default: 0
+        type: Boolean,
+        default: false
     },
-    archive: {
-        type: Number,
-        required: true,
-        default: 0,
-    }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 
 
