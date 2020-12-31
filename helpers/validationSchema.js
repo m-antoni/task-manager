@@ -18,6 +18,7 @@ const userSchema = Joi.object({
 const createTaskSchema = Joi.object({
     title: Joi.string().max(50).required(),
     description: Joi.string().max(150).required(),
+    completed: Joi.boolean().allow(null)
 });
 
 module.exports = {

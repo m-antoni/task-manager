@@ -189,6 +189,7 @@ if(updateBtn)
 
         const title = document.querySelector('#title').value;
         const description = document.querySelector('#description').value;
+        const completed = document.querySelector('#completed').checked;
         errors.innerHTML = '';
         const endpoint =`/home/update-task/${updateBtn.dataset.id}`;
 
@@ -198,7 +199,7 @@ if(updateBtn)
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ title, description })
+                body: JSON.stringify({ title, description, completed })
             });
 
             const data = await res.json();

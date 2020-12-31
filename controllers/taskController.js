@@ -44,6 +44,8 @@ const createTask = async (req, res) => {
 // Update Task
 const updateTask = async (req, res) => {
 
+    console.log(req.body)
+
     const _id = req.params.id;
     const error_msg = [];
     const params = req.body;

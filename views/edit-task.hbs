@@ -26,16 +26,43 @@
                 </div>
                 <form>
                     <div class="form-group">
+                        <div class="float-right">
+                            <div class="form-check">
+                                {{#if task.completed}}
+                                    <input id="completed" class="form-check-input" name="completed" value="true" type="checkbox" id="completed" checked disabled>
+                                {{else}}
+                                    <input id="completed" class="form-check-input" name="completed" value="false" type="checkbox" id="completed">
+                                {{/if}}
+                            
+                                <label class="form-check-label" for="completed"><strong>Completed</strong></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="">Title:</label>
-                        <input type="text" id="title" name="title" value="{{task.title}}" class="form-control">
+                        {{#if task.completed}}
+                            <input type="text" id="title" name="title" value="{{task.title}}" class="form-control" disabled>
+                        {{else}}
+                            <input type="text" id="title" name="title" value="{{task.title}}" class="form-control">
+                        {{/if}}
+                       
                     </div>
                     <div class="form-group">
                         <label for="desctiption">Description:</label>
-                        <textarea name="description" id="description" rows="4" class="form-control">{{task.description}}</textarea>
+                        {{#if task.completed}}
+                            <textarea name="description" id="description" rows="4" class="form-control" disabled>{{task.description}}</textarea>
+                        {{else}}
+                            <textarea name="description" id="description" rows="4" class="form-control">{{task.description}}</textarea>
+                        {{/if}}
                     </div>
                     <div class="form-group mt-4">
                         {{> _loading}}
-                        <button id="updateBtn" data-id="{{task._id}}" class="btn btn-primary btn-primary btn-block">Update Task</button>
+                         {{#if task.completed}}
+                            <button class="btn btn-primary btn-primary btn-block" disabled>Update Task</button>
+                        {{else}}
+                            <button id="updateBtn" data-id="{{task._id}}" class="btn btn-primary btn-primary btn-block">Update Task</button>
+                        {{/if}}
+
                         <button id="showDeleteModal" class="btn btn-danger btn-primary btn-block mt-0">Delete Task</button>
                     </div>
                 </form>
