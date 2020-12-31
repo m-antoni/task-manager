@@ -1,9 +1,16 @@
+/* #F4F1DE
+#E07A5F
+#3D405B
+#81B29A
+#F2CC8F */
+
+
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #f1f6f9;
+  background:  #F4F1DE;
 }
 
 .form-m {
@@ -26,4 +33,29 @@ body {
 
 .card-tasks:hover{
   background-color: #f1f6f9;
+}
+
+
+.navbar{
+  background: #E07A5F !important;
+}
+
+.title {
+  color: #81B29A !important;
+}
+
+.btn-primary{
+  background: #81B29A !important;
+}
+
+.btn-dark {
+  background: #3D405B !important;
+}
+
+.text-green{
+  color: #81B29A !important;
+}
+
+.card-tasks:hover {
+  background: #F2CC8F;
 }
