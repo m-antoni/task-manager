@@ -1,8 +1,10 @@
-/* #F4F1DE
-#E07A5F
-#3D405B
-#81B29A
-#F2CC8F */
+/*
+#E63946
+#F1FAEE
+#A8DADC
+#457B9D
+#1D3557
+*/
 
 
 html,
@@ -10,11 +12,15 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background:  #F4F1DE;
+  background: #F1FAEE !important;
+}
+
+.title-tm{
+  color: #457B9D !important; 
 }
 
 .form-m {
-  margin-top: 150px !important;
+  margin-top: 100px !important;
 }
 
 .email-error, .password-error, .signin-error {
@@ -31,31 +37,47 @@ body {
   display: none;
 }
 
-.card-tasks:hover{
-  background-color: #f1f6f9;
-}
-
-
 .navbar{
-  background: #E07A5F !important;
+  background: #457B9D !important;
 }
 
 .title {
-  color: #81B29A !important;
+  color: #1D3557
+ !important;
 }
 
 .btn-primary{
-  background: #81B29A !important;
+  background: #1D3557
+ !important;
 }
 
 .btn-dark {
-  background: #3D405B !important;
+  background: #457B9D !important;
 }
 
 .text-green{
-  color: #81B29A !important;
+  color: #1D3557 !important;
 }
 
 .card-tasks:hover {
-  background: #F2CC8F;
+  background: #F1FAEE;
+}
+
+.badge-light{
+  background: #F1FAEE !important;
+  color: #457B9D!important;
+}
+
+.badge-success{
+  background:#457B9D !important;
+}
+
+.text-task{
+  font-size: 1.5em;
+  color: #00b4d8 !important;
+}
+
+.text-date{
+  font-size: 0.9em;
+  color: #1D3557 !important;
 }

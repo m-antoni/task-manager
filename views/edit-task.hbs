@@ -33,7 +33,6 @@
                                 {{else}}
                                     <input id="completed" class="form-check-input" name="completed" value="false" type="checkbox" id="completed">
                                 {{/if}}
-                            
                                 <label class="form-check-label" for="completed"><strong>Completed</strong></label>
                             </div>
                         </div>
@@ -45,7 +44,6 @@
                         {{else}}
                             <input type="text" id="title" name="title" value="{{task.title}}" class="form-control">
                         {{/if}}
-                       
                     </div>
                     <div class="form-group">
                         <label for="desctiption">Description:</label>
@@ -55,6 +53,11 @@
                             <textarea name="description" id="description" rows="4" class="form-control">{{task.description}}</textarea>
                         {{/if}}
                     </div>
+
+                    <div class="form-group">
+                        <label for="desctiption">{{task.created_at}}</label>
+                    </div>
+
                     <div class="form-group mt-4">
                         {{> _loading}}
                          {{#if task.completed}}

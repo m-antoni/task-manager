@@ -74,7 +74,19 @@ const updateTask = async (req, res) => {
 const tasksPage = async (req, res) => {
     
     try {
-        const tasks = await Task.find({ user_id: req.authID }).sort({ created_at: 'desc' });
+        const _tasks = await Task.find({ user_id: req.authID }).sort({ created_at: 'desc' });
+
+        const tasks = _tasks.map(task => {
+            const newTask = {};
+            newTask['_id'] = task._id;
+            newTask['completed'] = task.completed;
+            newTask['title'] = task.title;
+            newTask['description'] = task.description;
+            newTask['created_at'] = moment(task.created_at).format(`lll`);
+
+            return newTask;
+        })
+
         res.render('tasks', { tasks });
 
     } catch (e) {
@@ -103,7 +115,16 @@ const editTaskPage = async (req, res) => {
     const _id = req.params.id;
 
     try {
-        const task = await Task.findById(_id);
+        const single_task = await Task.findById(_id);
+
+        const task = { ...single_task };
+        
+        task['_id'] = single_task._id;
+        task['completed'] = single_task.completed;
+        task['title'] = single_task.title;
+        task['description'] = single_task.description;
+        task['created_at'] = moment(task.created_at).format(`lll`);
+
         res.render('edit-task', { task });
     } catch (e) {
         console.log(e)

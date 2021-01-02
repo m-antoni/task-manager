@@ -7,10 +7,12 @@
   <body>
       <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-4 col-10 form-m">
-            <a href="/"><h4 class="text-center text-primary mb-5">Simple Task Manager</h4></a>
+            <div class="col-md-5 col-10 form-m">
               {{> _messages}}
+            <div class="card p-2 shadow-lg p-3 mb-5 bg-white rounded">
+              <div class="card-body">
               <form class="text-center">
+                <a href="/"><h4 class="text-center text-primary mb-5 title-tm"><strong>Simple Task Manager</strong></h4></a>
                 <div class="md-form">
                     <input type="text" name="name" value="{{name}}" id="name" class="form-control">
                     <label for="name">Name:</label>
@@ -33,10 +35,11 @@
                    <div class="md-form">
                       <button id="signUpBtn" class="btn btn-primary btn-block my-4 waves-effect z-depth-0" type="submit">Register</button>
                       {{> _loading}}
-                      <p><a href="/login"><strong>Login In</strong></a></p>
+                      <p><a href="/login" class="title-tm"><strong>Login In</strong></a></p>
                    </div>
                 </form>
-            </>
+              </div>
+            </div>
         </div>
       </div>
       {{> _footer}}
