@@ -1,4 +1,4 @@
-
+const BASE_URL = window.location.origin;
 const signUpBtn = document.querySelector('#signUpBtn');
 const signInBtn = document.querySelector('#signInBtn');
 const signOutBtn = document.querySelector('#signOutBtn');
@@ -6,6 +6,7 @@ const createTaskBtn = document.querySelector('#createTaskBtn');
 const deleteBtn = document.querySelector('#deleteBtn');
 const updateBtn = document.querySelector('#updateBtn');
 const showDeleteModal = document.querySelector('#showDeleteModal');
+const exportBtn = document.querySelector('#exportBtn');
 
 const loadingBtn = document.querySelector('#loadingBtn');
 const errors = document.querySelector('#errors');
@@ -269,5 +270,78 @@ if(showDeleteModal)
     });
 }
 
+
+
+// Export Btn
+if(exportBtn)
+{
+    console.log(BASE_URL)
+    exportBtn.addEventListener('click', async () => {
+
+        try {
+        
+            const res = await fetch(`${BASE_URL}/home/get-tasks`);
+            const json = await res.json();
+    
+            const data = json.tasks.map(row => ({
+                title: row.title,
+                description: row.description,
+                completed: row.completed == true ? 'Completed' : 'Pending',
+                date: row.created_at
+            }));
+
+            // console.log(data);
+            const csvData = await dataToCSV(data);
+            downloadCSV(csvData);
+    
+        } catch (err) {
+            console.log(err)
+        }
+
+    });
+}
+
+
+// Data to  CSV
+const dataToCSV = async (data) => {
+    const csvRows = [];
+    // get the headers
+    const headers = Object.keys(data[0]);
+    console.log(headers)
+    csvRows.push(headers.join(','));
+
+    // loop over the rows
+    for(const row of data){
+        const values = headers.map(header => {
+            const escaped = (''+row[header]).replace(/"/g, '\\"');
+            return `"${escaped}"`;
+        });
+
+        csvRows.push(values.join(','));
+    }
+
+    return csvRows.join('\n');
+};
+
+
+// Create a tag to download
+const downloadCSV = (data) => {
+
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+
+    const blob = new Blob([data], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('hidden', '');
+    a.setAttribute('href', url);
+    a.setAttribute('download', `tasks-${today}.csv`);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
 
 

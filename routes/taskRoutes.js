@@ -15,6 +15,7 @@ router.get('/home/create-task', auth, taskController.createTaskPage);
 router.get('/home/edit-task/:id', auth, taskController.editTaskPage);
 
 // api
+router.get('/home/get-tasks', auth, taskController.getTasks);
 router.post('/home/create-task', auth, taskController.createTask);
 router.put('/home/update-task/:id', auth, taskController.updateTask);
 router.delete('/home/delete-task/:id', auth, taskController.deleteTask);

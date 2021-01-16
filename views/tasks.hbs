@@ -10,6 +10,9 @@
         <div class="row justify-content-center">
             <div class="col-md-6 col-12 mb-5">
                 <div class="float-right">
+                    {{#if tasks }}
+                        <a id="exportBtn" class="mr-2 text-success"> <i class="fa fa-download"></i> <strong>Export CSV</strong></a>
+                    {{/if}}
                     <a href="/home/create-task" class="title-tm"> <i class="fa fa-plus"></i> <strong>Create Task</strong></a></button>
                 </div>
                 <div><h4>All Tasks</h4></div>

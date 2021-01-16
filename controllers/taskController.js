@@ -67,6 +67,28 @@ const updateTask = async (req, res) => {
     }
 }
 
+// Get Tasks for CSV Download API
+const getTasks = async (req, res) => {
+    try {
+        const _tasks = await Task.find({ user_id: req.authID }).sort({ created_at: 'desc' });
+
+        const tasks = _tasks.map(task => {
+            const newTask = {};
+            newTask['_id'] = task._id;
+            newTask['completed'] = task.completed;
+            newTask['title'] = task.title;
+            newTask['description'] = task.description;
+            newTask['created_at'] = moment(task.created_at).format(`lll`);
+
+            return newTask;
+        })
+
+        res.status(200).json({ tasks });
+        
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 
 /* PAGES HERE HBS FILES */
@@ -146,4 +168,4 @@ const deleteTask = async (req, res) => {
 }
 
 
-module.exports = { createTask, homePage, createTaskPage, tasksPage, editTaskPage, deleteTask, updateTask, aboutPage };
+module.exports = { createTask, getTasks, homePage, createTaskPage, tasksPage, editTaskPage, deleteTask, updateTask, aboutPage };
