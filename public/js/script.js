@@ -7,14 +7,11 @@ const deleteBtn = document.querySelector('#deleteBtn');
 const updateBtn = document.querySelector('#updateBtn');
 const showDeleteModal = document.querySelector('#showDeleteModal');
 
-
 const loadingBtn = document.querySelector('#loadingBtn');
 const errors = document.querySelector('#errors');
 const success_msg = document.querySelector('#success_msg');
 
-// Default 
-
-
+new WOW().init();
 /* AUTHENTICATION SCRIPT  */
 // Sign In
 if(signInBtn)

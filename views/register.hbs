@@ -12,28 +12,28 @@
             <div class="card p-2 shadow-lg p-3 mb-5 bg-white rounded">
               <div class="card-body">
               <form class="text-center">
-                <a href="/"><h4 class="text-center text-primary mb-5 title-tm"><strong>Simple Task Manager</strong></h4></a>
-                <div class="md-form">
+                <a href="/"><h4 class="text-center text-primary mb-5 title-tm wow fadeInDown"><strong>Simple Task Manager</strong></h4></a>
+                <div class="md-form wow fadeInUp">
                     <input type="text" name="name" value="{{name}}" id="name" class="form-control">
                     <label for="name">Name:</label>
                   </div>
-                  <div class="md-form">
+                  <div class="md-form wow fadeInUp">
                     <input type="email" name="email" value="{{email}}" id="email" class="form-control">
                     <label for="email">E-mail</label>
                     <div class="email-error"></div>
                   </div>
-                  <div class="md-form">
+                  <div class="md-form wow fadeInUp">
                     <input type="password" name="password" value="{{password}}" id="password" class="form-control">
                     <label for="password">Password</label>
                     <div class="password-error"></div>
                   </div>
-                    <div class="md-form">
+                    <div class="md-form wow fadeInUp">
                     <input id="confirm_password" type="password" name="confirm_password" value="{{confirm_password}}" class="form-control">
                     <label for="confirm-password">Confirm Password</label>
                   </div>
 
                    <div class="md-form">
-                      <button id="signUpBtn" class="btn btn-primary btn-block my-4 waves-effect z-depth-0" type="submit">Register</button>
+                      <button id="signUpBtn" class="btn btn-primary btn-block my-4 waves-effect z-depth-0 wow zoomIn" type="submit">Register</button>
                       {{> _loading}}
                       <p><a href="/login" class="title-tm"><strong>Login In</strong></a></p>
                    </div>
